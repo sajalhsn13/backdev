@@ -20,11 +20,9 @@ def store_login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            # FIXME
-            print("args:", **request.args)
             nextPage = request.args.get("next", url_for("index_post"))
             flash("Welcome back!", "success")
-            return redirect(url_for(nextPage))
+            return redirect(nextPage)
         else:
             flash("Login unsuccessful! Check your credentials.", "danger")
     return render_template("login.html.j2", form=form, login=True)

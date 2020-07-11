@@ -2,7 +2,7 @@ from app import app, db, bcrypt
 from flask import render_template, redirect, flash, url_for
 from app.forms import RegisterForm
 from app.models import User
-from flask_login import current_user
+from flask_login import current_user, login_user
 
 
 @app.route("/register")
@@ -24,6 +24,8 @@ def store_register():
         )
         db.session.add(user)
         db.session.commit()
-        flash("You account has been created! You can login now.", "success")
-        return redirect(url_for("show_login"))
+        user = User.query.filter_by(username=user.username).first()
+        login_user(user)
+        flash("You account has been created!", "success")
+        return redirect(url_for("index_post"))
     return render_template("register.html.j2", form=form)
