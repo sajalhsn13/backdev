@@ -1,0 +1,37 @@
+{% extends "layout.html.j2" %}
+
+{% block title %}
+Backdev - Update Profile
+{% endblock  %}
+
+{% block content %}
+
+<div class="card mt-5 mx-auto" style="max-width: 500px">
+  <div class="card-body mx-5 my-3">
+    <form action="" method='PATCH'>
+        <div class="form-group">
+            {{ form.username.label() }}
+            {{ form.username(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.email.label() }}
+            {{ form.email(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.new_password.label() }}
+            {{ form.new_password(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.new_password_confirm.label() }}
+            {{ form.new_password_confirm(class='form-control') }}
+        </div>
+        <div class="form-group">
+            {{ form.current_password.label() }} *
+            {{ form.current_password(class='form-control') }}
+        </div>
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+  </div>
+</div>
+
+{% endblock  %}

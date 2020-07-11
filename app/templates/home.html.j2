@@ -1,0 +1,21 @@
+{% extends "layout.html.j2" %}
+
+{% block title %}
+    Backdev - Home
+{% endblock %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="card m-5">
+            <div class="card-header">
+                <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
+                <small class="text-muted">
+                    by <a href="{{ url_for('show_profile', username=post.author) }}">{{ post.author }}</a> on {{ post.created_at }}
+                </small>
+            </div>
+            <div class="card-body">
+                <p class="card-text">{{ post.body[:200] }}...</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

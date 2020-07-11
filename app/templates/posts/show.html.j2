@@ -1,0 +1,19 @@
+{% extends "layout.html.j2" %}
+{% block title %}
+    Backdev - Post
+{% endblock %}
+
+{% block content %}
+    <div class="card m-5">
+        <div class="card-header">
+            {{ post.title }}
+            <small class="text-muted">
+                by <a href="{{ url_for('show_profile', username=post.author) }}">{{ post.author }}</a> on {{ post.created_at }}
+            </small>
+        </div>
+        <div class="card-body">
+            <div class="text-center"><img src="https://placebeard.it/640x360" alt=""></div>
+            <p class="card-text mt-3">{{ post.body }}</p>
+        </div>
+    </div>
+{% endblock %}

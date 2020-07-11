@@ -1,0 +1,4 @@
+SECRET_KEY = "443eaec71af0e82c2f31baabf00f20c65bf920c5921bf6bd0ed70ae388a60c73"
+SQLALCHEMY_DATABASE_URI = "mysql://root:yes@localhost/flaskblog"
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+
