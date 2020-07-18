@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Backdev - Update Profile
+{% endblock  %}
+
+{% block content %}
+
+<div class="card mt-5 mx-auto" style="max-width: 500px">
+  <div class="card-body mx-5 my-3">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+        <div class="form-group">
+            {{ form.username.label() }}
+            {% if form.username.errors %}
+                {{ form.username(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.username(class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.email.label() }}
+            {% if form.email.errors %}
+                {{ form.email(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.email(class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.new_password.label() }}
+            {% if form.new_password.errors %}
+                {{ form.new_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.new_password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.new_password(class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.new_password_confirm.label() }}
+            {% if form.new_password_confirm.errors %}
+                {{ form.new_password_confirm(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.new_password_confirm.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.new_password_confirm(class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.current_password.label() }} *
+            {% if form.current_password.errors %}
+                {{ form.current_password(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.current_password.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.current_password(class="form-control") }}
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.upload.label() }} (200 x 200)
+            {% if form.upload.errors %}
+                {{ form.upload(class="form-control-file is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.upload.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.upload(class="form-control-file") }}
+            {% endif %}
+        </div>
+        {{ form.submit(class='btn btn-primary') }}
+    </form>
+  </div>
+</div>
+
+{% endblock  %}

@@ -8,8 +8,13 @@
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                 {% if current_user.is_authenticated %}
+                    {% if  request.endpoint != 'create_post' %}
+                        <li class="nav-item">
+                            <a class="btn btn-info" href="{{ url_for('create_post')}}">New post</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('show_profile', username=current_user.username) }}">Profile</a>
+                        <a class="nav-link" href="{{ url_for('show_profile', username=current_user.username) }}">{{ current_user.username }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>

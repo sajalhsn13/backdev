@@ -10,7 +10,7 @@ def show_login():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     form = LoginForm()
-    return render_template("login.html.j2", form=form, login=True)
+    return render_template("login.html", form=form, login=True)
 
 
 @app.route("/login", methods=["POST"])
@@ -25,7 +25,7 @@ def store_login():
             return redirect(nextPage)
         else:
             flash("Login unsuccessful! Check your credentials.", "danger")
-    return render_template("login.html.j2", form=form, login=True)
+    return render_template("login.html", form=form, login=True)
 
 
 @app.route("/logout")

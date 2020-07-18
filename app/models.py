@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db, login_manager
 from flask_login import UserMixin
 
@@ -31,3 +32,7 @@ class Post(db.Model):
     title = db.Column(db.String(100), unique=True, nullable=False)
     body = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<Post id={self.id}|title={self.title}|body={self.body}|author={self.author.username}>"

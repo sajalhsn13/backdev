@@ -1,4 +1,4 @@
-{% extends "layout.html.j2" %}
+{% extends "layout.html" %}
 {% block title %}
     Backdev - Post
 {% endblock %}
@@ -8,11 +8,14 @@
         <div class="card-header">
             {{ post.title }}
             <small class="text-muted">
-                by <a href="{{ url_for('show_profile', username=post.author) }}">{{ post.author }}</a> on {{ post.created_at }}
+                by <a href="{{ url_for('show_profile', username=post.author.username) }}">{{ post.author.username }}</a>
+                {{ pendulum.instance(post.created_at).diff_for_humans() }}
             </small>
         </div>
         <div class="card-body">
-            <div class="text-center"><img src="https://placebeard.it/640x360" alt=""></div>
+            <div class="text-center">
+                <img src="https://placebeard.it/640x360" alt="">
+            </div>
             <p class="card-text mt-3">{{ post.body }}</p>
         </div>
     </div>

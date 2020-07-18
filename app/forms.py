@@ -1,7 +1,17 @@
+from flask_login import current_user
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from flask_wtf.file import FileField, FileAllowed
+from wtforms import (
+    StringField,
+    PasswordField,
+    BooleanField,
+    SubmitField,
+    HiddenField,
+    TextAreaField,
+)
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
-from app.models import User
+from app import bcrypt
+from app.models import User, Post
 
 
 class LoginForm(FlaskForm):
@@ -36,26 +46,45 @@ class RegisterForm(FlaskForm):
 
 
 class UpdateProfileForm(FlaskForm):
-    username = StringField("Username")
-    email = StringField("Email", validators=[Email()])
+    username = StringField("Username", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired(), Email()])
     new_password = PasswordField("New Password")
     new_password_confirm = PasswordField(
         "Confirm New Password", validators=[EqualTo("new_password")]
     )
     current_password = PasswordField("Current password", validators=[DataRequired()])
+    upload = FileField(
+        "Profile image",
+        validators=[FileAllowed(["jpg", "png"], ".jpg and .png image only!")],
+    )
     submit = SubmitField("Update")
 
     def validate_username(self, username):
-        if username == current_user.username:
+        if username.data == current_user.username:
             return
         user = User.query.filter_by(username=username.data).first()
         if user:
             raise ValidationError("This username is taken!")
 
     def validate_email(self, email):
-        if email == current_user.email:
+        if email.data == current_user.email:
             return
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError("This email is taken!")
+
+    def validate_current_password(self, current_password):
+        if not bcrypt.check_password_hash(current_user.password, current_password.data):
+            raise ValidationError("Password is not correct!!!")
+
+
+class NewPostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    body = TextAreaField("Body", validators=[DataRequired()])
+    post = SubmitField("Post")
+
+    def validate_title(self, title):
+        post = Post.query.filter_by(title=title.data).first()
+        if post:
+            raise ValidationError("Title has been taken")
 

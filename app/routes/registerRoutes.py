@@ -10,7 +10,7 @@ def show_register():
     if current_user.is_authenticated:
         return redirect(url_for("home"))
     form = RegisterForm()
-    return render_template("register.html.j2", form=form, register=True)
+    return render_template("register.html", form=form, register=True)
 
 
 @app.route("/register", methods=["POST"])
@@ -28,4 +28,4 @@ def store_register():
         login_user(user)
         flash("You account has been created!", "success")
         return redirect(url_for("index_post"))
-    return render_template("register.html.j2", form=form)
+    return render_template("register.html", form=form)

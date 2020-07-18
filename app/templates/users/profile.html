@@ -1,4 +1,4 @@
-{% extends "layout.html.j2" %}
+{% extends "layout.html" %}
 
 {% block title %}
     Backdev - User Profile
@@ -8,7 +8,7 @@
 <div class="card mt-5 mx-auto" style="max-width: 700px">
   <div class="card-body mx-5 my-3 d-flex">
     <div>
-        <img class="rounded-circle" src="https://placekitten.com/200/200" alt="">
+        <img class="rounded-circle" src="{{ image_url }}" alt="">
     </div>
     <div class="flex-grow-1 my-auto ml-md-5">
         <table>
@@ -21,7 +21,7 @@
                 <td>{{ user.email }}</td>
             </tr>
         </table>
-        {% if current_user.is_authenticated %}
+        {% if current_user.is_authenticated and user == current_user %}
             <a class="btn btn-primary mt-3" href="{{ url_for('edit_profile') }}">Update Profile</a>
         {% endif %}
     </div>
