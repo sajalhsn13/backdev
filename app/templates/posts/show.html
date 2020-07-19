@@ -7,7 +7,7 @@
     <div class="card m-5">
         <div class="card-header">
             {{ post.title }}
-            <small class="text-muted">
+            <small class="text-info">
                 by <a href="{{ url_for('show_profile', username=post.author.username) }}">{{ post.author.username }}</a>
                 {{ pendulum.instance(post.created_at).diff_for_humans() }}
             </small>
@@ -17,6 +17,36 @@
                 <img src="https://placebeard.it/640x360" alt="">
             </div>
             <p class="card-text mt-3">{{ post.body }}</p>
+        </div>
+    </div>
+    <div class="card m-5">
+        <div class="card-header">
+            {% if post.comments %}
+                Comments
+            {% else %}
+                No comment yet.
+            {% endif %}
+        </div>
+        <div class="card-body">
+            {% if current_user.is_authenticated %}
+                <form action="" method="POST" class='mb-5 d-flex flex-column'>
+                    {{ form.csrf_token }}
+                    {% if form.body.errors %}
+                        {{ form.body(placeholder='Post a comment', class='form-control mb-3 is-invalid', rows=5)  }}
+                        {% for error in form.body.errors %}
+                            <p class='text-danger'>{{ error }}</p>
+                        {% endfor %}
+                    {% else %}
+                        {{ form.body(placeholder='Post a comment', class='form-control mb-3', rows=5)  }}
+                    {% endif %}
+                    {{ form.submit(class='btn btn-info') }}
+                </form>
+            {% endif %}
+            {% for comment in post.comments %}
+                <div>
+                    <small class="text-info"><a href="#">{{ comment.author.username }}</a> {{ pendulum.instance(comment.created_at).diff_for_humans() }}.</small>
+                    <p>{{ comment.body }}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

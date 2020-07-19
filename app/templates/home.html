@@ -9,7 +9,7 @@
         <div class="card m-5">
             <div class="card-header">
                 <a href="{{ url_for('show_post', post_id=post.id) }}">{{ post.title }}</a>
-                <small class="text-muted">
+                <small class="text-info">
                     by <a href="{{ url_for('show_profile', username=post.author.username) }}">{{ post.author.username }}</a>
                     {{ pendulum.instance(post.created_at).diff_for_humans() }}
                 </small>

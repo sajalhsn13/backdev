@@ -19,6 +19,7 @@ class User(db.Model, UserMixin):
     image_url = db.Column(db.String(100), unique=True)
 
     posts = db.relationship("Post", backref="author", lazy=True)
+    comments = db.relationship("Comment", backref="author", lazy=True)
 
     def __repr__(self):
         return f"<User id={self.id}|username={self.username}|email={self.email}|image_url={self.image_url}>"
@@ -34,5 +35,20 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+    comments = db.relationship("Comment", backref="post", lazy=True)
+
     def __repr__(self):
         return f"<Post id={self.id}|title={self.title}|body={self.body}|author={self.author.username}>"
+
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    def __repr(self):
+        return f"<Comment id={self.id}|body={self.body}|post={self.post.title}>"

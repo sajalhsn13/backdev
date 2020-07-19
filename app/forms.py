@@ -88,3 +88,7 @@ class NewPostForm(FlaskForm):
         if post:
             raise ValidationError("Title has been taken")
 
+
+class NewCommentForm(FlaskForm):
+    body = TextAreaField("Post a comment", validators=[DataRequired()])
+    submit = SubmitField("Post")
