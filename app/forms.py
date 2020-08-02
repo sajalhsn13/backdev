@@ -89,6 +89,24 @@ class NewPostForm(FlaskForm):
             raise ValidationError("Title has been taken")
 
 
+class UpdatePostForm(FlaskForm):
+    title = StringField("Title", validators=[DataRequired()])
+    body = TextAreaField("Body", validators=[DataRequired()])
+    update = SubmitField("Update")
+
+    def validate_title(self, title):
+        if self.title == title:
+            return
+        post = Post.query.filter_by(title=title.data).first()
+        if post:
+            raise ValidationError("Title has been taken")
+
+
 class NewCommentForm(FlaskForm):
     body = TextAreaField("Post a comment", validators=[DataRequired()])
     submit = SubmitField("Post")
+
+
+class UpdateCommentForm(FlaskForm):
+    body = TextAreaField("Update comment", validators=[DataRequired()])
+    submit = SubmitField("Update")

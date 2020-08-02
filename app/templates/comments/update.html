@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Backdev - Update comment
+{% endblock  %}
+
+{% block content %}
+<div class="card mt-5 mx-auto" style="max-width: 700px">
+  <div class="card-body">
+    <form action="" method="POST" class='d-flex flex-column'>
+        {{ form.csrf_token }}
+        {% if form.body.errors %}
+            {{ form.body(placeholder='Update comment', class='form-control mb-3 is-invalid', rows=5)  }}
+            {% for error in form.body.errors %}
+                <p class='text-danger'>{{ error }}</p>
+            {% endfor %}
+        {% else %}
+            {{ form.body(placeholder='Post a comment', class='form-control mb-3', rows=5)  }}
+        {% endif %}
+        {{ form.submit(class='btn btn-info') }}
+    </form>
+  </div>
+</div>
+{% endblock  %}

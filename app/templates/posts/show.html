@@ -5,12 +5,20 @@
 
 {% block content %}
     <div class="card m-5">
-        <div class="card-header">
-            {{ post.title }}
-            <small class="text-info">
-                by <a href="{{ url_for('show_profile', username=post.author.username) }}">{{ post.author.username }}</a>
-                {{ pendulum.instance(post.created_at).diff_for_humans() }}
-            </small>
+        <div class="card-header d-flex align-items-center">
+            <div>
+                <div><h2>{{ post.title }}</h2></div>
+                <div class="text-info">
+                    {{ pendulum.instance(post.created_at).diff_for_humans() }}
+                    by <a href="{{ url_for('show_profile', username=post.author.username) }}">{{ post.author.username }}</a>
+                </div>
+            </div>
+            {% if current_user.id == post.author.id %}
+                <div class="ml-auto">
+                    <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-outline-info">Edit</a>
+                    <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn btn-outline-info">Delete</a>
+                </div>
+            {% endif %}
         </div>
         <div class="card-body">
             <div class="text-center">
@@ -43,9 +51,14 @@
                 </form>
             {% endif %}
             {% for comment in post.comments %}
-                <div>
-                    <small class="text-info"><a href="#">{{ comment.author.username }}</a> {{ pendulum.instance(comment.created_at).diff_for_humans() }}.</small>
-                    <p>{{ comment.body }}
+                <div class="py-2">
+                    <small class="text-info"><a href="{{ url_for('show_profile', username=comment.author.username) }}">{{ comment.author.username }}</a> {{ pendulum.instance(comment.created_at).diff_for_humans() }}.</small>
+                    <p class="mb-0">{{ comment.body }}</p>
+                    {% if comment.author.id == current_user.id %}
+                        <a href="{{ url_for('update_comment', comment_id=comment.id) }}" class='text-muted small'>Edit</a>
+                        <a href="{{ url_for('delete_comment', comment_id=comment.id) }}" class='text-muted small'>Delete</a>
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
     </div>
